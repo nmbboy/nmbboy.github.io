@@ -12,4 +12,9 @@
         <tag>-[test]</tag>
       </tags>
   </entry>
+  <entry>
+    <title>搭建hexo的过程</title>
+    <url>/2021/08/19/%E6%90%AD%E5%BB%BAhexo%E7%9A%84%E8%BF%87%E7%A8%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script>]]></content>
+  </entry>
 </search>
