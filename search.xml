@@ -162,7 +162,7 @@
 <p>大致的解读一下，首先是对$type进行判断，有其中一个就ok，再就是就收 out_trade_no money number 接收其中的传参，并带入到sql中，再这整个代码中没有见到任何对接收传参危险字符进行处理的行为。可以说是存在SQL注入的。<br><a href="https://imgtu.com/i/hk6cad"><img src="https://z3.ax1x.com/2021/08/24/hk6cad.png" alt="hk6cad.png"></a><br><a href="https://imgtu.com/i/hk66VH"><img src="https://z3.ax1x.com/2021/08/24/hk66VH.png" alt="hk66VH.png"></a></p>
 <p>这里是可以直接sqlmap一把梭的。</p>
 <hr>
-<h1 id="愉快的一天结束了，明天再继续看看前台和后台"><a href="#愉快的一天结束了，明天再继续看看前台和后台" class="headerlink" title="愉快的一天结束了，明天再继续看看前台和后台"></a>愉快的一天结束了，明天再继续看看前台和后台</h1><p>代码技术很菜，更别说审计了，文中有错误的地方敬请指正。</p>
+<h1 id="愉快的一天结束了，有空再继续看看前台和后台。"><a href="#愉快的一天结束了，有空再继续看看前台和后台。" class="headerlink" title="愉快的一天结束了，有空再继续看看前台和后台。"></a>愉快的一天结束了，有空再继续看看前台和后台。</h1><p>代码技术很菜，更别说审计了，文中有错误的地方敬请指正。</p>
 ]]></content>
       <tags>
         <tag>php审计</tag>
