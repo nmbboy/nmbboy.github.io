@@ -171,7 +171,8 @@
 <h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>愉快的一天结束了，有空再继续看看前台和后台。代码很菜，更别说审计了，本文一些注入点没有深入验证，但测试后实际是存在的，没有在文中体现，最后文中有错误的地方敬请指正。</p>
 ]]></content>
       <tags>
-        <tag>php审计 安全</tag>
+        <tag>安全</tag>
+        <tag>php审计</tag>
       </tags>
   </entry>
 </search>
