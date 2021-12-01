@@ -195,7 +195,7 @@
 <p>系统有几个子系统的入口，随机点了一个入口，管理界面一闪而过。<br>想了想，还是用bp拦住，看看管理界面长什么样，满足一下自己好奇心。<br><a href="https://imgtu.com/i/o8fjc6"><img src="https://z3.ax1x.com/2021/12/01/o8fjc6.png" alt="o8fjc6.png"></a><br>看着功能点挺少的。看着右上角那个图形还是挺像用户的管理什么的就点了点。发现挺有趣的，出来一个修改密码的功能。ok，点点，抓抓包。<br><a href="https://imgtu.com/i/o84FZF"><img src="https://z3.ax1x.com/2021/12/01/o84FZF.png" alt="o84FZF.png"></a><br>这里我修改密码为123456<br>然后重放了一下，发现这个接口是可以直接用的，<br>然后就是对用户名一顿爆破。<br>最后还是整了两个用户，成功登录进入系统，泄露患者数据较多，后台截图就不放了。</p>
 </blockquote>
 <h3 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h3><blockquote>
-<p>通过这个低端手法，运气加成的测试，也是让公司成功拿下这个医院项目。幻想着可以拿点什么奖金，结果，屁都没。哎，还是太菜。</p>
+<p>通过这个低端手法，运气加成的测试，还算顺利。</p>
 </blockquote>
 ]]></content>
       <tags>
