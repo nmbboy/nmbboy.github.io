@@ -175,4 +175,31 @@
         <tag>php审计</tag>
       </tags>
   </entry>
+  <entry>
+    <title>一次玄幻测试</title>
+    <url>/2021/12/01/%E4%B8%80%E6%AC%A1%E7%8E%84%E5%B9%BB%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
+<p>记录找一下一次对某医院授权的玄幻测试（手动狗头）</p>
+</blockquote>
+<hr>
+<span id="more"></span>
+<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><hr>
+<blockquote>
+<p>由于本次授权是对整片区域的测试授权，<br>所以对信息收集的范围比较广，本次收集到了是一家医院的资产。   </p>
+</blockquote>
+<hr>
+<h3 id="开始测试"><a href="#开始测试" class="headerlink" title="开始测试"></a>开始测试</h3><blockquote>
+<p>好，上系统。   </p>
+<p><a href="https://imgtu.com/i/o82kOe"><img src="https://z3.ax1x.com/2021/12/01/o82kOe.png" alt="o82kOe.png"></a><br>还是熟悉的味道。<br>这个系统没啥说的 就爆破用户然后猜测口令就完事了。  然后就进去了，要是有他的getshell漏洞就好了，可是我没有，我好菜。<br>这里主要还是讲的同ip下的另外一个系统  </p>
+<p><a href="https://imgtu.com/i/o8206U"><img src="https://z3.ax1x.com/2021/12/01/o8206U.png" alt="o8206U.png"></a></p>
+<p>系统有几个子系统的入口，随机点了一个入口，管理界面一闪而过。<br>想了想，还是用bp拦住，看看管理界面长什么样，满足一下自己好奇心。<br><a href="https://imgtu.com/i/o8fjc6"><img src="https://z3.ax1x.com/2021/12/01/o8fjc6.png" alt="o8fjc6.png"></a><br>看着功能点挺少的。看着右上角那个图形还是挺像用户的管理什么的就点了点。发现挺有趣的，出来一个修改密码的功能。ok，点点，抓抓包。<br><a href="https://imgtu.com/i/o84FZF"><img src="https://z3.ax1x.com/2021/12/01/o84FZF.png" alt="o84FZF.png"></a><br>这里我修改密码为123456<br>然后重放了一下，发现这个接口是可以直接用的，<br>然后就是对用户名一顿爆破。<br>最后还是整了两个用户，成功登录进入系统，泄露患者数据较多，后台截图就不放了。</p>
+</blockquote>
+<h3 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h3><blockquote>
+<p>通过这个低端手法，运气加成的测试，也是让公司成功拿下这个医院项目。幻想着可以拿点什么奖金，结果，屁都没。哎，还是太菜。</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>安全</tag>
+      </tags>
+  </entry>
 </search>
