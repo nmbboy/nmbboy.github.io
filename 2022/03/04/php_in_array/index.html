@@ -75,14 +75,14 @@
      
     <div class="article-meta">
       <a href="/2022/03/04/php_in_array/" class="article-date">
-  <time datetime="2022-03-04T04:20:37.429Z" itemprop="datePublished">2022-03-04</time>
+  <time datetime="2022-03-04T04:22:52.273Z" itemprop="datePublished">2022-03-04</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">648</span>
+            <span class="post-count">649</span>
         </span>
     </span>
 
@@ -121,7 +121,7 @@
 <h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><blockquote>
 <p>在index.php中10-15行中会将$sql在users查询到的行数给到$result并遍历一下把结果给$$whitelist,<br>往后看17-18行可见传入参数$id但传入sql语句中可见到会使用stop_hack()函数中，在config.php中发现是过滤函数，再往后看in_array()函数，要传入的$id号中的东西要在$whitelist中。<br>但是in_array()他没有写type参数，所以只要里面有1-5数字就行，然后就是stop_hack()函数这里把函数过滤了一部份，按照作者写题的意思是叫我们不能使用拼接函数的 updatexml 注入，这里可以使用make_set()函数拼接配合使用。</p>
 </blockquote>
-<p><code> http://127.0.0.1/123.php?id=1 and (select updatexml(1,make_set(3,1,(select flag from flag)),1))</code><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/bNh981"><img src="https://s4.ax1x.com/2022/03/04/bNh981.png" alt="bNh981.png"></a></p>
+<h2 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h2><p><code> http://127.0.0.1/123.php?id=1 and (select updatexml(1,make_set(3,1,(select flag from flag)),1))</code><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/bNh981"><img src="https://s4.ax1x.com/2022/03/04/bNh981.png" alt="bNh981.png"></a></p>
 <blockquote>
 <p>空格需要编码。<br>该ctf题目为红日安全的，感谢红日安全的开源分享。<br><a target="_blank" rel="noopener" href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
 </blockquote>
