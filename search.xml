@@ -209,6 +209,7 @@
 <p>有一段时间没有写了哈哈，今天更新一下。<br>最近还是在学习公司没有啥项目还是把代码审计学学。</p>
 </blockquote>
 <hr>
+<span id="more"></span>
 <h1 id="in-array"><a href="#in-array" class="headerlink" title="in_array()"></a>in_array()</h1><h2 id="函数的使用语法"><a href="#函数的使用语法" class="headerlink" title="函数的使用语法"></a>函数的使用语法</h2><p><a href="https://imgtu.com/i/bNDmZt"><img src="https://s4.ax1x.com/2022/03/04/bNDmZt.png" alt="bNDmZt.png"></a></p>
 <blockquote>
 <p>在这个函数当中存在三个参数，其中第三个不是必须的。由于函数中存在可选type，加之php为弱语言，<br>该参数位置默认为false，即search中存在array中但是不考虑数据类型在其中也可返回true，也就导致了绕过了这个函数。可能存在过滤sqli当中</p>
