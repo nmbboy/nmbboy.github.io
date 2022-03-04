@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>所有标签 |  Nil&#39;s Blog</title>
+      <title> Nil&#39;s Blog</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/images/logo.png" />
@@ -65,27 +65,66 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="tag-"
-  class="article article-type-tag"
+  id="post-php_in_array"
+  class="article article-type-post"
   itemscope
   itemprop="blogPost"
   data-scroll-reveal
 >
   <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  所有标签
-</h1>
- 
+     
+    <div class="article-meta">
+      <a href="/2022/03/04/php_in_array/" class="article-date">
+  <time datetime="2022-03-04T03:27:56.439Z" itemprop="datePublished">2022-03-04</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">648</span>
+        </span>
+    </span>
 
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">3 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
       
-    </header>
-       
+    <div class="tocbot"></div>
+
+
+
+
+  
     <div class="article-entry" itemprop="articleBody">
        
-   
+  <blockquote>
+<p>有一段时间没有写了哈哈，今天更新一下。<br>最近还是在学习公司没有啥项目还是把代码审计学学。</p>
+</blockquote>
+<hr>
+<h1 id="in-array"><a href="#in-array" class="headerlink" title="in_array()"></a>in_array()</h1><h2 id="函数的使用语法"><a href="#函数的使用语法" class="headerlink" title="函数的使用语法"></a>函数的使用语法</h2><p><a target="_blank" rel="noopener" href="https://imgtu.com/i/bNDmZt"><img src="https://s4.ax1x.com/2022/03/04/bNDmZt.png" alt="bNDmZt.png"></a></p>
+<blockquote>
+<p>在这个函数当中存在三个参数，其中第三个不是必须的。由于函数中存在可选type，加之php为弱语言，<br>该参数位置默认为false，即search中存在array中但是不考虑数据类型在其中也可返回true，也就导致了绕过了这个函数。可能存在过滤sqli当中</p>
+</blockquote>
+<h2 id="实战ctf题"><a href="#实战ctf题" class="headerlink" title="实战ctf题"></a>实战ctf题</h2><figure class="highlight php"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line"> <span class="comment">//index.php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;config.php&#x27;</span>;</span><br><span class="line"><span class="variable">$conn</span> = <span class="keyword">new</span> mysqli(<span class="variable">$servername</span>, <span class="variable">$username</span>, <span class="variable">$password</span>, <span class="variable">$dbname</span>);</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$conn</span>-&gt;connect_error) &#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;连接失败: &quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT COUNT(*) FROM users&quot;</span>;</span><br><span class="line"><span class="variable">$whitelist</span> = <span class="keyword">array</span>();</span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$conn</span>-&gt;query(<span class="variable">$sql</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$result</span>-&gt;num_rows &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="variable">$row</span> = <span class="variable">$result</span>-&gt;fetch_assoc();</span><br><span class="line">    <span class="variable">$whitelist</span> = range(<span class="number">1</span>, <span class="variable">$row</span>[<span class="string">&#x27;COUNT(*)&#x27;</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$id</span> = stop_hack(<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>]);</span><br><span class="line"><span class="variable">$sql</span> = <span class="string">&quot;SELECT * FROM users WHERE id=<span class="subst">$id</span>&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!in_array(<span class="variable">$id</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;id <span class="subst">$id</span> is not in whitelist.&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$conn</span>-&gt;query(<span class="variable">$sql</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$result</span>-&gt;num_rows &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="variable">$row</span> = <span class="variable">$result</span>-&gt;fetch_assoc();</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;center&gt;&lt;table border=&#x27;1&#x27;&gt;&quot;</span>;</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="variable">$row</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;tr&gt;&lt;td&gt;&lt;center&gt;<span class="subst">$key</span>&lt;/center&gt;&lt;/td&gt;&lt;br&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;td&gt;&lt;center&gt;<span class="subst">$value</span>&lt;/center&gt;&lt;/td&gt;&lt;/tr&gt;&lt;br&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;/table&gt;&lt;/center&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="variable">$conn</span>-&gt;error);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line"><span class="comment">//config.php</span></span><br><span class="line"><span class="variable">$servername</span> = <span class="string">&quot;localhost&quot;</span>;</span><br><span class="line"><span class="variable">$username</span> = <span class="string">&quot;root&quot;</span>;</span><br><span class="line"><span class="variable">$password</span> = <span class="string">&quot;root&quot;</span>;</span><br><span class="line"><span class="variable">$dbname</span> = <span class="string">&quot;day1&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stop_hack</span>(<span class="params"><span class="variable">$value</span></span>)</span>&#123;</span><br><span class="line">	<span class="variable">$pattern</span> = <span class="string">&quot;insert|delete|or|concat|concat_ws|group_concat|join|floor|\/\*|\*|\.\.\/|\.\/|union|into|load_file|outfile|dumpfile|sub|hex|file_put_contents|fwrite|curl|system|eval&quot;</span>;</span><br><span class="line">	<span class="variable">$back_list</span> = explode(<span class="string">&quot;|&quot;</span>,<span class="variable">$pattern</span>);</span><br><span class="line">	<span class="keyword">foreach</span>(<span class="variable">$back_list</span> <span class="keyword">as</span> <span class="variable">$hack</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(preg_match(<span class="string">&quot;/<span class="subst">$hack</span>/i&quot;</span>, <span class="variable">$value</span>))</span><br><span class="line">			<span class="keyword">die</span>(<span class="string">&quot;<span class="subst">$hack</span> detected!&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="variable">$value</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><blockquote>
+<p>在index.php中10-15行中会将$sql在users查询到的行数给到$result并遍历一下把结果给$$whitelist,<br>往后看17-18行可见传入参数$id但传入sql语句中可见到会使用stop_hack()函数中，在config.php中发现是过滤函数，再往后看in_array()函数，要传入的$id号中的东西要在$whitelist中。<br>但是in_array()他没有写type参数，所以只要里面有1-5数字就行，然后就是stop_hack()函数这里把函数过滤了一部份，按照作者写题的意思是叫我们不能使用拼接函数的 updatexml 注入，这里可以使用make_set()函数拼接配合使用。</p>
+</blockquote>
+<p><code> http://127.0.0.1/123.php?id=1 and (select updatexml(1,make_set(3,1,(select flag from flag)),1))</code><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/bNh981"><img src="https://s4.ax1x.com/2022/03/04/bNh981.png" alt="bNh981.png"></a></p>
+<blockquote>
+<p>空格需要编码。<br>该ctf题目为红日安全的，感谢红日安全的开源分享。<br><a target="_blank" rel="noopener" href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
+</blockquote>
+ 
       <!-- reward -->
       
     </div>
@@ -107,10 +146,22 @@
     
     <footer class="article-footer">
        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php%E5%AE%A1%E8%AE%A1/" rel="tag">php审计</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E5%85%A8/" rel="tag">安全</a></li></ul>
+
     </footer>
   </div>
 
    
+  <nav class="article-nav">
+    
+    
+      <a href="/2021/12/01/%E4%B8%80%E6%AC%A1%E7%8E%84%E5%B9%BB%E6%B5%8B%E8%AF%95/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">一次玄幻测试</div>
+      </a>
+    
+  </nav>
+
    
 <!-- valine评论 -->
 <div id="vcomments-box">
@@ -160,7 +211,8 @@
 </style>
 
  
-    
+   
+     
 </article>
 
 </section>
@@ -295,6 +347,22 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
 <link
