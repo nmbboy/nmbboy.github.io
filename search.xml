@@ -230,9 +230,13 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
+    <title>php代码审计学习二</title>
     <url>/2022/03/31/filter_var%E4%BA%8C/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><p>title: php代码审计学习二</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><blockquote>
+<p>filter_var使用导致的问题</p>
+</blockquote>
+<hr>
+<span id="more"></span>
 <h1 id="filter-var"><a href="#filter-var" class="headerlink" title="filter_var"></a>filter_var</h1><h2 id="函数使用语法"><a href="#函数使用语法" class="headerlink" title="函数使用语法"></a>函数使用语法</h2><p><a href="https://imgtu.com/i/bUEfqx"><img src="https://s4.ax1x.com/2022/03/04/bUEfqx.png" alt="bUEfqx.png"></a><br>filter的过滤器大致有一下几个</p>
 <p><a href="https://imgtu.com/i/bUVuYF"><img src="https://s4.ax1x.com/2022/03/04/bUVuYF.png" alt="bUVuYF.png"></a></p>
 <h2 id="函数绕过举例"><a href="#函数绕过举例" class="headerlink" title="函数绕过举例"></a>函数绕过举例</h2><figure class="highlight php"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$url</span> = filter_var(<span class="variable">$_GET</span>[<span class="string">&#x27;url&#x27;</span>], FILTER_VALIDATE_URL);</span><br><span class="line">	var_dump(<span class="variable">$url</span>);</span><br><span class="line">	<span class="variable">$url</span> = htmlspecialchars(<span class="variable">$url</span>);</span><br><span class="line">	var_dump(<span class="variable">$url</span>);</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;a href=&#x27;<span class="subst">$url</span>&#x27;&gt; Next Slide &lt;/a&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
@@ -249,5 +253,8 @@
 <p> 以上payload可能存在url编码问题，要注意一下。</p>
 <p> 该ctf题目为红日安全的，感谢红日安全的开源分享。<br> <a href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
 ]]></content>
+      <tags>
+        <tag>php审计</tag>
+      </tags>
   </entry>
 </search>

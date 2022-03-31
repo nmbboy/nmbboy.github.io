@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title> Nil&#39;s Blog</title>
+      <title>php代码审计学习二 |  Nil&#39;s Blog</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/images/logo.png" />
@@ -72,17 +72,27 @@
   data-scroll-reveal
 >
   <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  php代码审计学习二
+</h1>
+ 
+
+      
+    </header>
      
     <div class="article-meta">
       <a href="/2022/03/31/filter_var%E4%BA%8C/" class="article-date">
-  <time datetime="2022-03-31T02:10:14.140Z" itemprop="datePublished">2022-03-31</time>
+  <time datetime="2022-03-31T02:30:33.000Z" itemprop="datePublished">2022-03-31</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">754</span>
+            <span class="post-count">753</span>
         </span>
     </span>
 
@@ -106,7 +116,11 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>title: php代码审计学习二</p>
+  <blockquote>
+<p>filter_var使用导致的问题</p>
+</blockquote>
+<hr>
+<span id="more"></span>
 <h1 id="filter-var"><a href="#filter-var" class="headerlink" title="filter_var"></a>filter_var</h1><h2 id="函数使用语法"><a href="#函数使用语法" class="headerlink" title="函数使用语法"></a>函数使用语法</h2><p><a target="_blank" rel="noopener" href="https://imgtu.com/i/bUEfqx"><img src="https://s4.ax1x.com/2022/03/04/bUEfqx.png" alt="bUEfqx.png"></a><br>filter的过滤器大致有一下几个</p>
 <p><a target="_blank" rel="noopener" href="https://imgtu.com/i/bUVuYF"><img src="https://s4.ax1x.com/2022/03/04/bUVuYF.png" alt="bUVuYF.png"></a></p>
 <h2 id="函数绕过举例"><a href="#函数绕过举例" class="headerlink" title="函数绕过举例"></a>函数绕过举例</h2><figure class="highlight php"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$url</span> = filter_var(<span class="variable">$_GET</span>[<span class="string">&#x27;url&#x27;</span>], FILTER_VALIDATE_URL);</span><br><span class="line">	var_dump(<span class="variable">$url</span>);</span><br><span class="line">	<span class="variable">$url</span> = htmlspecialchars(<span class="variable">$url</span>);</span><br><span class="line">	var_dump(<span class="variable">$url</span>);</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;a href=&#x27;<span class="subst">$url</span>&#x27;&gt; Next Slide &lt;/a&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
@@ -144,25 +158,18 @@
     
     <footer class="article-footer">
        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php%E5%AE%A1%E8%AE%A1/" rel="tag">php审计</a></li></ul>
+
     </footer>
   </div>
 
    
   <nav class="article-nav">
     
+    
       <a href="/2022/03/31/php_in_array/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            php代码审计学习一
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2021/12/01/%E4%B8%80%E6%AC%A1%E7%8E%84%E5%B9%BB%E6%B5%8B%E8%AF%95/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">一次玄幻测试</div>
+        <div class="article-nav-title">php代码审计学习一</div>
       </a>
     
   </nav>
