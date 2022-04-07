@@ -204,7 +204,7 @@
   </entry>
   <entry>
     <title>php代码审计学习一</title>
-    <url>/2022/03/31/php_in_array/</url>
+    <url>/2022/04/07/php_in_array/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><blockquote>
 <p>有一段时间没有写了哈哈，今天更新一下。<br>最近还是在学习公司没有啥项目还是把代码审计学学。</p>
 </blockquote>
@@ -222,7 +222,7 @@
 </blockquote>
 <h2 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h2><p><code> http://127.0.0.1/123.php?id=1 and (select updatexml(1,make_set(3,1,(select flag from flag)),1))</code><br><a href="https://imgtu.com/i/bNh981"><img src="https://s4.ax1x.com/2022/03/04/bNh981.png" alt="bNh981.png"></a></p>
 <blockquote>
-<p>空格需要编码。<br>该ctf题目为红日安全的，感谢红日安全的开源分享。<br><a href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
+<p>空格需要编码。<br>感谢红日安全的开源分享。<br><a href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
 </blockquote>
 ]]></content>
       <tags>
@@ -231,7 +231,7 @@
   </entry>
   <entry>
     <title>php代码审计学习二</title>
-    <url>/2022/03/31/filter_var%E4%BA%8C/</url>
+    <url>/2022/04/07/filter_var%E4%BA%8C/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><blockquote>
 <p>filter_var使用导致的问题</p>
 </blockquote>
@@ -251,7 +251,9 @@
 <p><a href="https://imgtu.com/i/bU8BcV"><img src="https://s4.ax1x.com/2022/03/04/bU8BcV.png" alt="bU8BcV.png"></a><br> 因为过滤的问题想要读取文件不能有空格，所以读取payload为：<br> <a href="http://192.168.125.134/index.php?url=asd://&quot;;cat">http://192.168.125.134/index.php?url=asd://&quot;;cat</a>&lt;f1agi3hEre.php;”;sec-redclub.com:80/</p>
 <p><a href="https://imgtu.com/i/bUJ1eS"><img src="https://s4.ax1x.com/2022/03/04/bUJ1eS.png" alt="bUJ1eS.png"></a></p>
 <p> 以上payload可能存在url编码问题，要注意一下。</p>
-<p> 该ctf题目为红日安全的，感谢红日安全的开源分享。<br> <a href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
+<blockquote>
+<p> 感谢红日安全的开源分享。<br> <a href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
+</blockquote>
 ]]></content>
       <tags>
         <tag>php审计</tag>
