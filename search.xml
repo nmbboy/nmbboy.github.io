@@ -333,4 +333,49 @@
         <tag>php审计</tag>
       </tags>
   </entry>
+  <entry>
+    <title></title>
+    <url>/2022/06/22/1celery%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><h1 id="clelery-学习记录"><a href="#clelery-学习记录" class="headerlink" title="clelery 学习记录"></a>clelery 学习记录</h1><p>最近在学习django，想使用celery弄到django里面。</p>
+<p>主要还是去看中文手册（无奈看不懂英文），看的迷迷糊糊，又去百度，b站到处翻。</p>
+<p><em>之前说学的php代码审计又放置了 <del>需要改改三分热度的毛病了</del></em></p>
+<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><h3 id="芹菜简介"><a href="#芹菜简介" class="headerlink" title="芹菜简介"></a>芹菜简介</h3><p>Celery 是一款非常简单、灵活、可靠的分布式系统，可用于处理大量消息，并且提供了一整套操作此系统的一系列工具。<br>Celery 是一款消息队列工具，可用于处理实时数据以及任务调度。<br>Celery 可以在一台机器上运行，也可以在多台机器上运行，甚至可以跨数据中心运行。 —来自<a href="https://www.celerycn.io/v/4.4.0/jian-jie">中文手册</a></p>
+<p>现在最新版已经是5点几了，中文手册最新的还是4点，但是参考还是够了</p>
+<h3 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h3><p>任务队列一般用于线程或计算机之间分配工作的一种机制。<br>任务队列的输入是一个称为任务的工作单元，有专门的工作进行不断的监视任务队列，进行执行新的任务工作。<br>Celery 通过消息机制进行通信，通常使用中间人（Broker）作为客户端和职程（Worker）调节。启动一个任务，客户端向消息队列发送一条消息，然后中间人（Broker）将消息传递给一个职程（Worker），最后由职程（Worker）进行执行中间人（Broker）分配的任务。<br>Celery 可以有多个职程（Worker）和中间人（Broker），用来提高Celery的高可用性以及横向扩展能力。<br>Celery 是用 Python 编写的，但协议可以用任何语言实现。除了 Python 语言实现之外，还有Node.js的 node-celery 以及 node-celery-ts 和php的celery-php。<br>可以通过暴露 HTTP 的方式进行，任务交互以及其它语言的集成开发。</p>
+<h3 id="运作流程"><a href="#运作流程" class="headerlink" title="运作流程"></a>运作流程</h3><p>用一个图更清晰（网上copy的）<br><img src="https://raw.githubusercontent.com/nmbboy/blog_img/main/celery_%E6%B5%81%E7%A8%8B.png"></p>
+<p>抽象一点理解的话，就是领导发话了叫你做事了，然后呢，给你整了一个项目列表叫你去做，做完了再告诉他。*<del>哎呀 大概就这个意思</del>*</p>
+<h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><ul>
+<li>ubuntu20.04</li>
+<li>pychram</li>
+<li>python 3.8</li>
+<li>celery </li>
+<li>Django 4.0.5</li>
+<li>celery 4.4.7</li>
+<li>redis</li>
+</ul>
+<h2 id="开搞"><a href="#开搞" class="headerlink" title="开搞"></a>开搞</h2><p>首先还是常规的那一套，用django，新建一个项目，这里我直接用pychram,<br>直接看目录结构吧<br><img src="https://raw.githubusercontent.com/nmbboy/blog_img/main/%E5%AE%9E%E9%AA%8C%E7%9B%AE%E5%BD%95.png"></p>
+<p><code>demo</code>为一个app，<code>celery_tasks</code>为手动创建的一个包。其中的<code>mian.py</code>为入口文件。</p>
+<p><strong>main.py</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import os</span><br><span class="line">from celery import Celery</span><br><span class="line">from django.conf import settings</span><br><span class="line"></span><br><span class="line"># 读取</span><br><span class="line">os.environ[&#x27;DJANGO_SETTINGS_MODULE&#x27;] = &#x27;celery_demo.settings&#x27;</span><br><span class="line"></span><br><span class="line">app = Celery(&#x27;test&#x27;)</span><br><span class="line"></span><br><span class="line"># 加载配置</span><br><span class="line"># celery_app.config_from_object(&#x27;配置文件&#x27;)</span><br><span class="line"># 读取的是这个项目的更目录下的settings</span><br><span class="line">app.config_from_object(&#x27;django.conf:settings&#x27;)</span><br><span class="line"></span><br><span class="line"># 注册异步任务：注意[&#x27;celery_tasks.sms&#x27;]的[]，否则启动celery失败</span><br><span class="line"># 将</span><br><span class="line">app.autodiscover_tasks([&#x27;celery_tasks.sms&#x27;])</span><br></pre></td></tr></table></figure>
+<p><strong>settings</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">········（上面是django 自己的配置）</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">celery配置</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line"># Broker配置，使用Redis作为消息中间件</span><br><span class="line">BROKER_URL = &#x27;redis://127.0.0.1:6379/10&#x27;</span><br><span class="line"></span><br><span class="line"># BACKEND配置，这里使用redis</span><br><span class="line">CELERY_RESULT_BACKEND = &#x27;redis://127.0.0.1:6379/11&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>新建了一个sms（就相当于一个功能吧）</p>
+<p><strong>task.py</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 导入包</span><br><span class="line">from celery_tasks.main import app</span><br><span class="line">from time import sleep</span><br><span class="line"></span><br><span class="line"># 用装饰器的方式</span><br><span class="line">@app.task</span><br><span class="line">def Send(a, b):</span><br><span class="line">    print(a, b)</span><br><span class="line">    sleep(10)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>做好以后 然后我们去启动一下celery<br>控制台：<br><code>celery -A celery_tasks.main worker -l info </code><br><img src="https://raw.githubusercontent.com/nmbboy/blog_img/main/celery%E5%90%AF%E5%8A%A8.png"><br>ok 看到以上就是启动成功。</p>
+<p><strong>调用</strong><br>现在就是没问题了，我们新建一个app 写一下视图和路由，好让django来调用到。<br><strong>demo/view.py</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from django.shortcuts import render,HttpResponse</span><br><span class="line">from django.views import View</span><br><span class="line">from celery_tasks.sms.task import Send</span><br><span class="line"># Create your views here.</span><br><span class="line">class SendSms(View):</span><br><span class="line">    def get(self, request):</span><br><span class="line">        # 这里就是调用的之前那个装饰器的</span><br><span class="line">        res=Send.delay(&#x27;test&#x27;, &#x27;test123123&#x27;)</span><br><span class="line">        # 返回一个id，在页面上显示</span><br><span class="line">        return HttpResponse(&#x27;id:%s&#x27;%res)</span><br></pre></td></tr></table></figure>
+
+<p>这里做的是一个子路由<br><strong>demo/urls.py</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from django.urls import path</span><br><span class="line">from .views import SendSms</span><br><span class="line">urlpatterns = [</span><br><span class="line">    # path(&#x27;admin/&#x27;, admin.site.urls),</span><br><span class="line">    path(&#x27;start&#x27;,SendSms.as_view())</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/nmbboy/blog_img/main/%E5%90%AF%E5%8A%A8.png"></p>
+<p><img src="https://raw.githubusercontent.com/nmbboy/blog_img/main/%E5%AE%8C%E6%88%90.png"></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>我好菜，搞个这个花了好多时间，距离睡桥洞又进了一步。<br>有一个小问题，在celery 最新版，也就是5点几，在导入包 也就是<code>from celert import Celery</code> 会提示<code>__init__.py</code>没有这个。<br>有大佬看见的话给小白解解惑吧 T_T</p>
+<blockquote>
+<p>文中有纰漏的各位看官请包含，一个语文没及格的，写的出来已是恼火了</p>
+</blockquote>
+]]></content>
+  </entry>
 </search>
