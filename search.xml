@@ -336,14 +336,11 @@
   <entry>
     <title>clelery 学习记录</title>
     <url>/2022/06/22/1celery%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><p>tags:</p>
-<ul>
-<li>python</li>
-</ul>
-<hr>
-<h1 id="clelery-学习记录"><a href="#clelery-学习记录" class="headerlink" title="clelery 学习记录"></a>clelery 学习记录</h1><p>最近在学习django，想使用celery弄到django里面。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><h1 id="clelery-学习记录"><a href="#clelery-学习记录" class="headerlink" title="clelery 学习记录"></a>clelery 学习记录</h1><p>最近在学习django，想使用celery弄到django里面。</p>
 <p>主要还是去看中文手册（无奈看不懂英文），看的迷迷糊糊，又去百度，b站到处翻。</p>
-<h2 id="之前说学的php代码审计又放置了-需要改改三分热度的毛病了"><a href="#之前说学的php代码审计又放置了-需要改改三分热度的毛病了" class="headerlink" title="之前说学的php代码审计又放置了 需要改改三分热度的毛病了"></a><em>之前说学的php代码审计又放置了 <del>需要改改三分热度的毛病了</del></em></h2><span id="more"></span>
+<p>之前说学的php代码审计又放置了 <del>需要改改三分热度的毛病了</del></p>
+<hr>
+<span id="more"></span>
 <h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><h3 id="芹菜简介"><a href="#芹菜简介" class="headerlink" title="芹菜简介"></a>芹菜简介</h3><p>Celery 是一款非常简单、灵活、可靠的分布式系统，可用于处理大量消息，并且提供了一整套操作此系统的一系列工具。<br>Celery 是一款消息队列工具，可用于处理实时数据以及任务调度。<br>Celery 可以在一台机器上运行，也可以在多台机器上运行，甚至可以跨数据中心运行。 —来自<a href="https://www.celerycn.io/v/4.4.0/jian-jie">中文手册</a></p>
 <p>现在最新版已经是5点几了，中文手册最新的还是4点，但是参考还是够了</p>
 <h3 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h3><p>任务队列一般用于线程或计算机之间分配工作的一种机制。<br>任务队列的输入是一个称为任务的工作单元，有专门的工作进行不断的监视任务队列，进行执行新的任务工作。<br>Celery 通过消息机制进行通信，通常使用中间人（Broker）作为客户端和职程（Worker）调节。启动一个任务，客户端向消息队列发送一条消息，然后中间人（Broker）将消息传递给一个职程（Worker），最后由职程（Worker）进行执行中间人（Broker）分配的任务。<br>Celery 可以有多个职程（Worker）和中间人（Broker），用来提高Celery的高可用性以及横向扩展能力。<br>Celery 是用 Python 编写的，但协议可以用任何语言实现。除了 Python 语言实现之外，还有Node.js的 node-celery 以及 node-celery-ts 和php的celery-php。<br>可以通过暴露 HTTP 的方式进行，任务交互以及其它语言的集成开发。</p>
@@ -382,5 +379,8 @@
 <p>文中有纰漏的各位看官请包含，一个语文没及格的，写的出来已是恼火了</p>
 </blockquote>
 ]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
   </entry>
 </search>
