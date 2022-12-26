@@ -84,36 +84,6 @@
       </tags>
   </entry>
   <entry>
-    <title>php代码审计学习二</title>
-    <url>/2022/11/25/filter_var%E4%BA%8C/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><blockquote>
-<p>filter_var使用导致的问题</p>
-</blockquote>
-<hr>
-<span id="more"></span>
-<h1 id="filter-var"><a href="#filter-var" class="headerlink" title="filter_var"></a>filter_var</h1><h2 id="函数使用语法"><a href="#函数使用语法" class="headerlink" title="函数使用语法"></a>函数使用语法</h2><p><a href="https://imgtu.com/i/bUEfqx"><img src="https://s4.ax1x.com/2022/03/04/bUEfqx.png" alt="bUEfqx.png"></a><br>filter的过滤器大致有一下几个</p>
-<p><a href="https://imgtu.com/i/bUVuYF"><img src="https://s4.ax1x.com/2022/03/04/bUVuYF.png" alt="bUVuYF.png"></a></p>
-<h2 id="函数绕过举例"><a href="#函数绕过举例" class="headerlink" title="函数绕过举例"></a>函数绕过举例</h2><figure class="highlight php"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$url</span> = filter_var(<span class="variable">$_GET</span>[<span class="string">&#x27;url&#x27;</span>], FILTER_VALIDATE_URL);</span><br><span class="line">	var_dump(<span class="variable">$url</span>);</span><br><span class="line">	<span class="variable">$url</span> = htmlspecialchars(<span class="variable">$url</span>);</span><br><span class="line">	var_dump(<span class="variable">$url</span>);</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;a href=&#x27;<span class="subst">$url</span>&#x27;&gt; Next Slide &lt;/a&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p> 这里使用了使用了FILTER_VALIDATE_URL这个过滤器，对GET来的url传参进行了过滤然后使用htmlspecialchars()函数将将特殊字符转换为html实体。<br> 通过网上的一些师傅说的 用JavaScript伪协议来绕过。<br> payload：<br> ?url=javascript://comment/％250aalert(1)<br> 这里尝试了网上的师傅的payload都没有成功，发现如若没有在comment后加上“;”、“/”、“?”、“:”、“@”、“=”和“&amp;” 这个的话FILTER_VALIDATE_URL这个好像会识别为不符合的url，加上后就识别上了。<br> %25是%加上后买你的0a解码后就是%0a为换行，在前面的//为单行注释，后面进行了换行，就不会注释了即绕过了过滤，也执行了。</p>
-<h2 id="实战ctf题"><a href="#实战ctf题" class="headerlink" title="实战ctf题"></a>实战ctf题</h2><figure class="highlight php"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// index.php</span></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="variable">$url</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$url</span>) &amp;&amp; filter_var(<span class="variable">$url</span>, FILTER_VALIDATE_URL))&#123;</span><br><span class="line">    <span class="variable">$site_info</span> = parse_url(<span class="variable">$url</span>);</span><br><span class="line">    var_dump(<span class="variable">$site_info</span>);</span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">&#x27;/sec-redclub.com$/&#x27;</span>,<span class="variable">$site_info</span>[<span class="string">&#x27;host&#x27;</span>]))&#123;</span><br><span class="line">        exec(<span class="string">&#x27;curl &quot;&#x27;</span>.<span class="variable">$site_info</span>[<span class="string">&#x27;host&#x27;</span>].<span class="string">&#x27;&quot;&#x27;</span>, <span class="variable">$result</span>);</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;center&gt;&lt;h1&gt;You have curl <span class="subst">&#123;$site_info[&#x27;host&#x27;]&#125;</span> successfully!&lt;/h1&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string">              &lt;center&gt;&lt;textarea rows=&#x27;20&#x27; cols=&#x27;90&#x27;&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> implode(<span class="string">&#x27; &#x27;</span>, <span class="variable">$result</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;&lt;center&gt;&lt;h1&gt;Error: Host not allowed&lt;/h1&gt;&lt;/center&gt;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;center&gt;&lt;h1&gt;Just curl sec-redclub.com!&lt;/h1&gt;&lt;/center&gt;&lt;br&gt;</span></span><br><span class="line"><span class="string">          &lt;center&gt;&lt;h3&gt;For example:?url=http://sec-redclub.com&lt;/h3&gt;&lt;/center&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// f1agi3hEre.php</span><br><span class="line">&lt;?php</span><br><span class="line">$flag = &quot;HRCTF&#123;f1lt3r_var_1s_s0_c00l&#125;&quot;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="ctf-代码分析"><a href="#ctf-代码分析" class="headerlink" title="ctf 代码分析"></a>ctf 代码分析</h3><p> 和上面的列子一样filter_var函数使用了FILTER_VALIDATE_URL过滤器，也就是GET里url传参的内容必须为url格式的。<br> 然后还使用了一个parse_url(),先来看看这个函数是干啥的</p>
-<p><a href="https://imgtu.com/i/bUMOVs"><img src="https://s4.ax1x.com/2022/03/04/bUMOVs.png" alt="bUMOVs.png"></a></p>
-<p> 大致的绕过思路呢就是说我们传入的东西呢要是url格式的，想要让它执行curl呢就得要让传入的url里的host拼接上最后传入的内容还必须包含“sec-redclub.com”。<br> 这里在网上翻阅了一些绕过parse_url()函数的资料。<br> <a href="https://medium.com/secjuice/php-ssrf-techniques-9d422cb28d51">https://medium.com/secjuice/php-ssrf-techniques-9d422cb28d51</a><br> 这个外国友人讲解的很好<br> 我们就是用他的思路把传入的协议改为其他除http以为不存在的字符代替,并且使用一些“;”、“/”、“?”、“:”、“@”、“=”和“&amp;” 这些字符拼接</p>
-<p><a href="https://imgtu.com/i/bU1OVH"><img src="https://s4.ax1x.com/2022/03/04/bU1OVH.png" alt="bU1OVH.png"></a><br> 现在是host可控了然后传入我们的命令来达到命令执行。<br>payload：<br> <a href="http://192.168.125.134/index.php?url=asd://&quot;;ls;&quot;;sec-redclub.com:80/">http://192.168.125.134/index.php?url=asd://&quot;;ls;&quot;;sec-redclub.com:80/</a></p>
-<p><a href="https://imgtu.com/i/bU8BcV"><img src="https://s4.ax1x.com/2022/03/04/bU8BcV.png" alt="bU8BcV.png"></a><br> 因为过滤的问题想要读取文件不能有空格，所以读取payload为：<br> <a href="http://192.168.125.134/index.php?url=asd://&quot;;cat">http://192.168.125.134/index.php?url=asd://&quot;;cat</a>&lt;f1agi3hEre.php;”;sec-redclub.com:80/</p>
-<p><a href="https://imgtu.com/i/bUJ1eS"><img src="https://s4.ax1x.com/2022/03/04/bUJ1eS.png" alt="bUJ1eS.png"></a></p>
-<p> 以上payload可能存在url编码问题，要注意一下。</p>
-<blockquote>
-<p> 感谢红日安全的开源分享。<br> <a href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>php审计</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>开发验证不全四</title>
     <url>/2022/11/25/4%E5%BC%80%E5%8F%91%E9%AA%8C%E8%AF%81%E4%B8%8D%E5%85%A8/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><blockquote>
@@ -148,6 +118,36 @@
 </blockquote>
 <blockquote>
 <p>感谢红日安全的开源分享。<br><a href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>php审计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php代码审计学习二</title>
+    <url>/2022/11/25/filter_var%E4%BA%8C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><blockquote>
+<p>filter_var使用导致的问题</p>
+</blockquote>
+<hr>
+<span id="more"></span>
+<h1 id="filter-var"><a href="#filter-var" class="headerlink" title="filter_var"></a>filter_var</h1><h2 id="函数使用语法"><a href="#函数使用语法" class="headerlink" title="函数使用语法"></a>函数使用语法</h2><p><a href="https://imgtu.com/i/bUEfqx"><img src="https://s4.ax1x.com/2022/03/04/bUEfqx.png" alt="bUEfqx.png"></a><br>filter的过滤器大致有一下几个</p>
+<p><a href="https://imgtu.com/i/bUVuYF"><img src="https://s4.ax1x.com/2022/03/04/bUVuYF.png" alt="bUVuYF.png"></a></p>
+<h2 id="函数绕过举例"><a href="#函数绕过举例" class="headerlink" title="函数绕过举例"></a>函数绕过举例</h2><figure class="highlight php"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$url</span> = filter_var(<span class="variable">$_GET</span>[<span class="string">&#x27;url&#x27;</span>], FILTER_VALIDATE_URL);</span><br><span class="line">	var_dump(<span class="variable">$url</span>);</span><br><span class="line">	<span class="variable">$url</span> = htmlspecialchars(<span class="variable">$url</span>);</span><br><span class="line">	var_dump(<span class="variable">$url</span>);</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;a href=&#x27;<span class="subst">$url</span>&#x27;&gt; Next Slide &lt;/a&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p> 这里使用了使用了FILTER_VALIDATE_URL这个过滤器，对GET来的url传参进行了过滤然后使用htmlspecialchars()函数将将特殊字符转换为html实体。<br> 通过网上的一些师傅说的 用JavaScript伪协议来绕过。<br> payload：<br> ?url=javascript://comment/％250aalert(1)<br> 这里尝试了网上的师傅的payload都没有成功，发现如若没有在comment后加上“;”、“/”、“?”、“:”、“@”、“=”和“&amp;” 这个的话FILTER_VALIDATE_URL这个好像会识别为不符合的url，加上后就识别上了。<br> %25是%加上后买你的0a解码后就是%0a为换行，在前面的//为单行注释，后面进行了换行，就不会注释了即绕过了过滤，也执行了。</p>
+<h2 id="实战ctf题"><a href="#实战ctf题" class="headerlink" title="实战ctf题"></a>实战ctf题</h2><figure class="highlight php"><figcaption><span>&#123;.line-numbers&#125;</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// index.php</span></span><br><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="variable">$url</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$url</span>) &amp;&amp; filter_var(<span class="variable">$url</span>, FILTER_VALIDATE_URL))&#123;</span><br><span class="line">    <span class="variable">$site_info</span> = parse_url(<span class="variable">$url</span>);</span><br><span class="line">    var_dump(<span class="variable">$site_info</span>);</span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">&#x27;/sec-redclub.com$/&#x27;</span>,<span class="variable">$site_info</span>[<span class="string">&#x27;host&#x27;</span>]))&#123;</span><br><span class="line">        exec(<span class="string">&#x27;curl &quot;&#x27;</span>.<span class="variable">$site_info</span>[<span class="string">&#x27;host&#x27;</span>].<span class="string">&#x27;&quot;&#x27;</span>, <span class="variable">$result</span>);</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;center&gt;&lt;h1&gt;You have curl <span class="subst">&#123;$site_info[&#x27;host&#x27;]&#125;</span> successfully!&lt;/h1&gt;&lt;/center&gt;</span></span><br><span class="line"><span class="string">              &lt;center&gt;&lt;textarea rows=&#x27;20&#x27; cols=&#x27;90&#x27;&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> implode(<span class="string">&#x27; &#x27;</span>, <span class="variable">$result</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;&lt;center&gt;&lt;h1&gt;Error: Host not allowed&lt;/h1&gt;&lt;/center&gt;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;center&gt;&lt;h1&gt;Just curl sec-redclub.com!&lt;/h1&gt;&lt;/center&gt;&lt;br&gt;</span></span><br><span class="line"><span class="string">          &lt;center&gt;&lt;h3&gt;For example:?url=http://sec-redclub.com&lt;/h3&gt;&lt;/center&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// f1agi3hEre.php</span><br><span class="line">&lt;?php</span><br><span class="line">$flag = &quot;HRCTF&#123;f1lt3r_var_1s_s0_c00l&#125;&quot;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="ctf-代码分析"><a href="#ctf-代码分析" class="headerlink" title="ctf 代码分析"></a>ctf 代码分析</h3><p> 和上面的列子一样filter_var函数使用了FILTER_VALIDATE_URL过滤器，也就是GET里url传参的内容必须为url格式的。<br> 然后还使用了一个parse_url(),先来看看这个函数是干啥的</p>
+<p><a href="https://imgtu.com/i/bUMOVs"><img src="https://s4.ax1x.com/2022/03/04/bUMOVs.png" alt="bUMOVs.png"></a></p>
+<p> 大致的绕过思路呢就是说我们传入的东西呢要是url格式的，想要让它执行curl呢就得要让传入的url里的host拼接上最后传入的内容还必须包含“sec-redclub.com”。<br> 这里在网上翻阅了一些绕过parse_url()函数的资料。<br> <a href="https://medium.com/secjuice/php-ssrf-techniques-9d422cb28d51">https://medium.com/secjuice/php-ssrf-techniques-9d422cb28d51</a><br> 这个外国友人讲解的很好<br> 我们就是用他的思路把传入的协议改为其他除http以为不存在的字符代替,并且使用一些“;”、“/”、“?”、“:”、“@”、“=”和“&amp;” 这些字符拼接</p>
+<p><a href="https://imgtu.com/i/bU1OVH"><img src="https://s4.ax1x.com/2022/03/04/bU1OVH.png" alt="bU1OVH.png"></a><br> 现在是host可控了然后传入我们的命令来达到命令执行。<br>payload：<br> <a href="http://192.168.125.134/index.php?url=asd://&quot;;ls;&quot;;sec-redclub.com:80/">http://192.168.125.134/index.php?url=asd://&quot;;ls;&quot;;sec-redclub.com:80/</a></p>
+<p><a href="https://imgtu.com/i/bU8BcV"><img src="https://s4.ax1x.com/2022/03/04/bU8BcV.png" alt="bU8BcV.png"></a><br> 因为过滤的问题想要读取文件不能有空格，所以读取payload为：<br> <a href="http://192.168.125.134/index.php?url=asd://&quot;;cat">http://192.168.125.134/index.php?url=asd://&quot;;cat</a>&lt;f1agi3hEre.php;”;sec-redclub.com:80/</p>
+<p><a href="https://imgtu.com/i/bUJ1eS"><img src="https://s4.ax1x.com/2022/03/04/bUJ1eS.png" alt="bUJ1eS.png"></a></p>
+<p> 以上payload可能存在url编码问题，要注意一下。</p>
+<blockquote>
+<p> 感谢红日安全的开源分享。<br> <a href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
 </blockquote>
 ]]></content>
       <tags>
@@ -239,6 +239,33 @@
       </tags>
   </entry>
   <entry>
+    <title>一次玄幻测试</title>
+    <url>/2021/12/01/%E4%B8%80%E6%AC%A1%E7%8E%84%E5%B9%BB%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
+<p>记录找一下一次对某医院授权的玄幻测试（手动狗头）</p>
+</blockquote>
+<hr>
+<span id="more"></span>
+<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><hr>
+<blockquote>
+<p>由于本次授权是对整片区域的测试授权，<br>所以对信息收集的范围比较广，本次收集到了是一家医院的资产。   </p>
+</blockquote>
+<hr>
+<h3 id="开始测试"><a href="#开始测试" class="headerlink" title="开始测试"></a>开始测试</h3><blockquote>
+<p>好，上系统。   </p>
+<p><a href="https://imgtu.com/i/o82kOe"><img src="https://z3.ax1x.com/2021/12/01/o82kOe.png" alt="o82kOe.png"></a><br>还是熟悉的味道。<br>这个系统没啥说的 就爆破用户然后猜测口令就完事了。  然后就进去了，要是有他的getshell漏洞就好了，可是我没有，我好菜。<br>这里主要还是讲的同ip下的另外一个系统  </p>
+<p><a href="https://imgtu.com/i/o8206U"><img src="https://z3.ax1x.com/2021/12/01/o8206U.png" alt="o8206U.png"></a></p>
+<p>系统有几个子系统的入口，随机点了一个入口，管理界面一闪而过。<br>想了想，还是用bp拦住，看看管理界面长什么样，满足一下自己好奇心。<br><a href="https://imgtu.com/i/o8fjc6"><img src="https://z3.ax1x.com/2021/12/01/o8fjc6.png" alt="o8fjc6.png"></a><br>看着功能点挺少的。看着右上角那个图形还是挺像用户的管理什么的就点了点。发现挺有趣的，出来一个修改密码的功能。ok，点点，抓抓包。<br><a href="https://imgtu.com/i/o84FZF"><img src="https://z3.ax1x.com/2021/12/01/o84FZF.png" alt="o84FZF.png"></a><br>这里我修改密码为123456<br>然后重放了一下，发现这个接口是可以直接用的，<br>然后就是对用户名一顿爆破。<br>最后还是整了两个用户，成功登录进入系统，泄露患者数据较多，后台截图就不放了。</p>
+</blockquote>
+<h3 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h3><blockquote>
+<p>通过这个低端手法，运气加成的测试，还算顺利。</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>搭建hexo的过程</title>
     <url>/2021/08/19/%E6%90%AD%E5%BB%BAhexo%E7%9A%84%E8%BF%87%E7%A8%8B/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><p>其实这次博客的搭建也是一次偶然，也想了想还是应该对自己的一些事情记录一下。</p>
@@ -294,7 +321,7 @@
 </blockquote>
 <p>2.生成SSH密钥</p>
 <blockquote>
-<p>ssh-keygen -t rsa -C <a href="mailto:&#120;&#x78;&#x78;&#64;&#113;&#x71;&#46;&#99;&#111;&#109;">&#120;&#x78;&#x78;&#64;&#113;&#x71;&#46;&#99;&#111;&#109;</a></p>
+<p>ssh-keygen -t rsa -C <a href="mailto:&#120;&#x78;&#x78;&#x40;&#113;&#113;&#46;&#x63;&#111;&#x6d;">&#120;&#x78;&#x78;&#x40;&#113;&#113;&#46;&#x63;&#111;&#x6d;</a></p>
 </blockquote>
 <p>查看一下是否生成</p>
 <blockquote>
@@ -308,14 +335,14 @@
 <p><a href="https://imgtu.com/i/fbAzOP"><img src="https://z3.ax1x.com/2021/08/19/fbAzOP.png" alt="fbAzOP.png"></a></p>
 <p>验证一下咱们的ssh是否成功的添加到了github上</p>
 <blockquote>
-<p>ssh -T <a href="mailto:&#x67;&#x69;&#116;&#64;&#103;&#105;&#116;&#x68;&#x75;&#98;&#x2e;&#x63;&#110;">&#x67;&#x69;&#116;&#64;&#103;&#105;&#116;&#x68;&#x75;&#98;&#x2e;&#x63;&#110;</a></p>
+<p>ssh -T <a href="mailto:&#x67;&#x69;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#x75;&#x62;&#46;&#x63;&#x6e;">&#x67;&#x69;&#x74;&#x40;&#x67;&#105;&#116;&#x68;&#x75;&#x62;&#46;&#x63;&#x6e;</a></p>
 </blockquote>
 <p><a href="https://imgtu.com/i/fbekfe"><img src="https://z3.ax1x.com/2021/08/19/fbekfe.png" alt="fbekfe.png"></a></p>
 <p>4.配置Hexo _config.yml</p>
 <blockquote>
 <p>deploy:</p>
 <p>type: git</p>
-<p>repo: <a href="mailto:&#103;&#105;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#117;&#98;&#46;&#99;&#x6f;&#x6d;">&#103;&#105;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#117;&#98;&#46;&#99;&#x6f;&#x6d;</a>:username/username.github.io.git</p>
+<p>repo: <a href="mailto:&#x67;&#105;&#116;&#x40;&#x67;&#x69;&#116;&#104;&#x75;&#x62;&#46;&#99;&#x6f;&#x6d;">&#x67;&#105;&#116;&#x40;&#x67;&#x69;&#116;&#104;&#x75;&#x62;&#46;&#99;&#x6f;&#x6d;</a>:username/username.github.io.git</p>
 <p>branch: master</p>
 </blockquote>
 <p>5.部署到github</p>
@@ -335,33 +362,6 @@
 <h2 id="至此就已搭建完成了。"><a href="#至此就已搭建完成了。" class="headerlink" title="至此就已搭建完成了。"></a><strong>至此就已搭建完成了。</strong></h2>]]></content>
       <tags>
         <tag>-其他</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一次玄幻测试</title>
-    <url>/2021/12/01/%E4%B8%80%E6%AC%A1%E7%8E%84%E5%B9%BB%E6%B5%8B%E8%AF%95/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="https://cdn.jsdelivr.net/npm/meting/dist/Meting.min.js"></script><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
-<p>记录找一下一次对某医院授权的玄幻测试（手动狗头）</p>
-</blockquote>
-<hr>
-<span id="more"></span>
-<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><hr>
-<blockquote>
-<p>由于本次授权是对整片区域的测试授权，<br>所以对信息收集的范围比较广，本次收集到了是一家医院的资产。   </p>
-</blockquote>
-<hr>
-<h3 id="开始测试"><a href="#开始测试" class="headerlink" title="开始测试"></a>开始测试</h3><blockquote>
-<p>好，上系统。   </p>
-<p><a href="https://imgtu.com/i/o82kOe"><img src="https://z3.ax1x.com/2021/12/01/o82kOe.png" alt="o82kOe.png"></a><br>还是熟悉的味道。<br>这个系统没啥说的 就爆破用户然后猜测口令就完事了。  然后就进去了，要是有他的getshell漏洞就好了，可是我没有，我好菜。<br>这里主要还是讲的同ip下的另外一个系统  </p>
-<p><a href="https://imgtu.com/i/o8206U"><img src="https://z3.ax1x.com/2021/12/01/o8206U.png" alt="o8206U.png"></a></p>
-<p>系统有几个子系统的入口，随机点了一个入口，管理界面一闪而过。<br>想了想，还是用bp拦住，看看管理界面长什么样，满足一下自己好奇心。<br><a href="https://imgtu.com/i/o8fjc6"><img src="https://z3.ax1x.com/2021/12/01/o8fjc6.png" alt="o8fjc6.png"></a><br>看着功能点挺少的。看着右上角那个图形还是挺像用户的管理什么的就点了点。发现挺有趣的，出来一个修改密码的功能。ok，点点，抓抓包。<br><a href="https://imgtu.com/i/o84FZF"><img src="https://z3.ax1x.com/2021/12/01/o84FZF.png" alt="o84FZF.png"></a><br>这里我修改密码为123456<br>然后重放了一下，发现这个接口是可以直接用的，<br>然后就是对用户名一顿爆破。<br>最后还是整了两个用户，成功登录进入系统，泄露患者数据较多，后台截图就不放了。</p>
-</blockquote>
-<h3 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h3><blockquote>
-<p>通过这个低端手法，运气加成的测试，还算顺利。</p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>安全</tag>
       </tags>
   </entry>
   <entry>
